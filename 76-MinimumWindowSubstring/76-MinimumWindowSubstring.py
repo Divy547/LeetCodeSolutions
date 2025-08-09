@@ -1,28 +1,43 @@
-# Last updated: 8/10/2025, 2:47:57 AM
+# Last updated: 8/10/2025, 2:50:18 AM
 class Solution:
     def minWindow(self, s: str, t: str) -> str:
-        from collections import Counter
-
-        i = 0
-        target = Counter(t)
-        window = {}
+        if not s or not t:
+            return ""
+        
+        # ASCII size (256 is safe for extended ASCII)
+        target = [0] * 256
+        window = [0] * 256
+        
+        # Fill target counts
+        for c in t:
+            target[ord(c)] += 1
+        
+        need = sum(1 for count in target if count > 0)  # unique chars needed
+        have = 0
+        
         res = [0, 0]
         minLen = float('inf')
-        currChar, targetChar = 0, len(target)
+        i = 0
+        
         for j in range(len(s)):
-            window[s[j]] = window.get(s[j], 0) + 1
-
-            if s[j] in target and window[s[j]] == target[s[j]]:
-                currChar += 1
-
-            while currChar == targetChar:
+            c_j = ord(s[j])
+            window[c_j] += 1
+            
+            if target[c_j] > 0 and window[c_j] == target[c_j]:
+                have += 1
+            
+            # Shrink window from left when valid
+            while have == need:
                 if j - i + 1 < minLen:
-                    res = [i, j]
                     minLen = j - i + 1
-                window[s[i]] -=1
-                if s[i] in target and window[s[i]] < target[s[i]]:
-                    currChar -= 1
-                i+=1
+                    res = [i, j]
+                
+                c_i = ord(s[i])
+                window[c_i] -= 1
+                if target[c_i] > 0 and window[c_i] < target[c_i]:
+                    have -= 1
+                i += 1
+        
         start, end = res
         return s[start:end+1] if minLen != float('inf') else ""
 
