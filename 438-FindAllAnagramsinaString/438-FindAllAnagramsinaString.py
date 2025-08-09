@@ -1,23 +1,13 @@
-# Last updated: 8/10/2025, 12:59:28 AM
+# Last updated: 8/10/2025, 1:48:16 AM
 class Solution:
-    def findAnagrams(self, s: str, p: str) -> List[int]:
-        from collections import Counter
+    def equalSubstring(self, s: str, t: str, maxCost: int) -> int:
         i = 0
-        hashMap = set()
-        res = []
-        target = Counter(p)
-        window = Counter()
-
+        maxLen = 0
+        currCost = 0
         for j in range(len(s)):
-            window[s[j]] += 1
-            if j >= len(p):
-                left_char = s[j - len(p)]
-                if window[left_char] == 1:
-                    del window[left_char]
-                else:
-                    window[left_char] -= 1
-            if window == target:
-                res.append(j-len(p)+1)
-        return res
-
-                
+            currCost += abs(ord(s[j]) - ord(t[j]))
+            while currCost > maxCost:
+                currCost -= abs(ord(s[i]) - ord(t[i]))
+                i+=1
+            maxLen = max(maxLen, j - i + 1)
+        return maxLen
