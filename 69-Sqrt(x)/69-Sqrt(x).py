@@ -1,47 +1,38 @@
-# Last updated: 8/12/2025, 11:47:45 PM
-# Definition for singly-linked list.
-# class ListNode:
-#     def __init__(self, val=0, next=None):
-#         self.val = val
-#         self.next = next
+# Last updated: 8/13/2025, 12:56:44 AM
 class Solution:
-    def sortList(self, head: Optional[ListNode]) -> Optional[ListNode]:
-        if not head or not head.next:
-            return head
-        
-        mid = self.middle(head)
-        rightList = mid.next
-        mid.next = None
+    def reversePairs(self, nums: List[int]) -> int:
+        self.count = 0
+        def mergeSort(nums):
+            if len(nums) < 2:
+                return nums
+            mid = len(nums) // 2
+            left = mergeSort(nums[:mid])
+            right = mergeSort(nums[mid:])
 
-        leftSorted = self.sortList(head)
-        rightSorted = self.sortList(rightList)
+            i = 0
+            j = 0
+            while i < len(left) and j < len(right):
+                if left[i] > 2 * right[j]:
+                    self.count += len(left) - i
+                    j += 1
+                else:
+                    i += 1
+            return merge(left, right)
 
-        return self.merge(leftSorted, rightSorted)
+        def merge(left, right):
+            merged = []
+            i, j = 0, 0
+            while i < len(left) and j < len(right):
+                if left[i] <= right[j]:
+                    merged.append(left[i])
+                    i+=1
+                else:
+                    merged.append(right[j])
+                    j+=1
 
-    def middle(self, head):
-        slow = head
-        fast = head.next
-        while fast and fast.next:
-            slow = slow.next
-            fast = fast.next.next
-        return slow
-    def merge(self, l1, l2):
-        dummy = ListNode()
-        tail = dummy
+            merged.extend(left[i:])
+            merged.extend(right[j:])
+            return merged
         
-        while l1 and l2:
-            if l1.val <= l2.val:
-                tail.next = l1
-                l1 = l1.next
-            else:
-                tail.next = l2
-                l2 = l2.next
-            tail = tail.next
-        
-        # Attach the remaining part (like extend in arrays)
-        if l1:
-            tail.next = l1
-        if l2:
-            tail.next = l2
-        
-        return dummy.next
+        mergeSort(nums)
+        return self.count
