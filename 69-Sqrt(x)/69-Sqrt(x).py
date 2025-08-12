@@ -1,27 +1,47 @@
-# Last updated: 8/12/2025, 11:26:59 PM
+# Last updated: 8/12/2025, 11:47:45 PM
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
 class Solution:
-    def sortArray(self, nums: List[int]) -> List[int]:
-        def mergeSort(nums):
-            if len(nums) <= 1:
-                return nums
-            mid = len(nums)//2
-            left = mergeSort(nums[:mid])
-            right = mergeSort(nums[mid:])
+    def sortList(self, head: Optional[ListNode]) -> Optional[ListNode]:
+        if not head or not head.next:
+            return head
+        
+        mid = self.middle(head)
+        rightList = mid.next
+        mid.next = None
 
-            return merge(left, right)
-        def merge(left, right):
-            i = j = 0
-            merged = []
-            while i < len(left) and j < len(right):
-                if left[i] < right[j]:
-                    merged.append(left[i])
-                    i+=1
-                else:
-                    merged.append(right[j])
-                    j+=1
+        leftSorted = self.sortList(head)
+        rightSorted = self.sortList(rightList)
 
-            merged.extend(left[i:])
-            merged.extend(right[j:])
-            return merged
+        return self.merge(leftSorted, rightSorted)
 
-        return mergeSort(nums)
+    def middle(self, head):
+        slow = head
+        fast = head.next
+        while fast and fast.next:
+            slow = slow.next
+            fast = fast.next.next
+        return slow
+    def merge(self, l1, l2):
+        dummy = ListNode()
+        tail = dummy
+        
+        while l1 and l2:
+            if l1.val <= l2.val:
+                tail.next = l1
+                l1 = l1.next
+            else:
+                tail.next = l2
+                l2 = l2.next
+            tail = tail.next
+        
+        # Attach the remaining part (like extend in arrays)
+        if l1:
+            tail.next = l1
+        if l2:
+            tail.next = l2
+        
+        return dummy.next
