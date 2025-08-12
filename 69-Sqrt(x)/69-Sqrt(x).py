@@ -1,8 +1,27 @@
-# Last updated: 8/12/2025, 11:04:27 PM
+# Last updated: 8/12/2025, 11:26:59 PM
 class Solution:
-    def isPowerOfFour(self, n: int) -> bool:
-        if n == 1:
-            return True
-        if n < 1 or n % 4!= 0:
-            return False
-        return self.isPowerOfFour(n//4)
+    def sortArray(self, nums: List[int]) -> List[int]:
+        def mergeSort(nums):
+            if len(nums) <= 1:
+                return nums
+            mid = len(nums)//2
+            left = mergeSort(nums[:mid])
+            right = mergeSort(nums[mid:])
+
+            return merge(left, right)
+        def merge(left, right):
+            i = j = 0
+            merged = []
+            while i < len(left) and j < len(right):
+                if left[i] < right[j]:
+                    merged.append(left[i])
+                    i+=1
+                else:
+                    merged.append(right[j])
+                    j+=1
+
+            merged.extend(left[i:])
+            merged.extend(right[j:])
+            return merged
+
+        return mergeSort(nums)
