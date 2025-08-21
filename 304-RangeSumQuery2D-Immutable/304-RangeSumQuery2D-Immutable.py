@@ -1,19 +1,15 @@
-# Last updated: 8/21/2025, 11:48:47 PM
-class NumMatrix:
+# Last updated: 8/22/2025, 12:19:42 AM
+class Solution:
+    def checkSubarraySum(self, nums: List[int], k: int) -> bool:
+        from collections import Counter
+        hashMap = {0:-1}
+        currSum = 0
 
-    def __init__(self, matrix: List[List[int]]):
-        m = len(matrix)
-        n = len(matrix[0])
-        self.prefix = [[0] * (n+1) for _ in range(m+1)]
-        for i in range(m):
-            for j in range(n):
-                self.prefix[i+1][j+1] = matrix[i][j] + self.prefix[i+1][j] + self.prefix[i][j+1] - self.prefix[i][j]
-
-    def sumRegion(self, row1: int, col1: int, row2: int, col2: int) -> int:
-        total = self.prefix[row2+1][col2+1] - self.prefix[row1][col2+1] - self.prefix[row2+1][col1] + self.prefix[row1][col1]
-        return total
-
-
-# Your NumMatrix object will be instantiated and called as such:
-# obj = NumMatrix(matrix)
-# param_1 = obj.sumRegion(row1,col1,row2,col2)
+        for i in range(len(nums)):
+            currSum += nums[i]
+            if currSum % k in hashMap:
+                if i - hashMap[currSum % k] >= 2:
+                    return True
+            else:
+                hashMap[currSum % k] = i
+        return False
