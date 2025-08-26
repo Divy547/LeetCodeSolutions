@@ -1,21 +1,14 @@
-# Last updated: 8/25/2025, 11:16:19 PM
+# Last updated: 8/26/2025, 7:31:30 PM
 class Solution:
-    def shiftingLetters(self, s: str, shifts: List[List[int]]) -> str:
-        diff = [0]*(len(s)+1)
-        for l, r, direction in shifts:
-                if direction == 1:
-                    diff[l] += 1
-                    diff[r+1] -= 1
-                else:
-                    diff[l] -= 1
-                    diff[r+1] += 1
+    def corpFlightBookings(self, bookings: List[List[int]], n: int) -> List[int]:
+        diff = [0]*(n+2) 
+        for l, r, seats in bookings:
+            diff[l] += seats
+            diff[r+1] -= seats
         for i in range(1, len(diff)):
             diff[i] = diff[i-1] + diff[i]
-        print(diff[:-1])
-        res = []
-        for i, ch in enumerate(s):
-            base = ord('a')
-            oldval = ord(ch) - base
-            newVal = (oldval + diff[i]) % 26
-            res.append(chr(base + newVal))
-        return "".join(res)
+        return diff[1:-1]
+            
+        
+
+        
