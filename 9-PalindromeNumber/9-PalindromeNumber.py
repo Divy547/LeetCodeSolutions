@@ -1,5 +1,13 @@
-# Last updated: 8/9/2025, 2:27:29 AM
+# Last updated: 9/4/2025, 3:01:49 PM
 class Solution(object):
     def isPalindrome(self, x):
-        return str(x)[::-1]==str(x)
+        if x < 0:
+            return False
+        y = x
+        rev = 0
+        while x:
+            a = x % 10
+            rev = rev*10+a
+            x = x // 10
+        return  rev == y
         
