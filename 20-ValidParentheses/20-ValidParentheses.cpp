@@ -1,4 +1,4 @@
-// Last updated: 9/11/2025, 4:14:03 PM
+// Last updated: 9/11/2025, 4:14:28 PM
 #include <stack>
 class Solution {
 public:
@@ -15,7 +15,7 @@ public:
                 char top = chars.top();
                 chars.pop();
                 if (ch == ')' && top != '(') {
-                    
+
                     return false;
                 }
                 if (ch == '}' && top != '{') {
@@ -25,8 +25,7 @@ public:
                     return false;
                 }
             }
-        
         }
-    return chars.empty();
+        return chars.empty();
     }
 };
