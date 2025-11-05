@@ -1,48 +1,33 @@
-// Last updated: 10/14/2025, 12:49:30 PM
+// Last updated: 11/5/2025, 1:38:16 PM
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
 class Solution {
 public:
-    ListNode* reverse(ListNode* head) {
-        ListNode* prev = nullptr;
-        ListNode* curr = head;
-        while (curr) {
-            ListNode* next = curr->next;
-            curr->next = prev;
-            prev = curr;
-            curr = next;
+    ListNode* removeElements(ListNode* head, int val) {
+        while(head != nullptr && head->val == val) {
+            head = head->next;
         }
-        return prev;
-    }
-
-    bool isPalindrome(ListNode* head) {
-        if (!head || !head->next) return true;
-
-        // Find middle
-        ListNode* slow = head;
-        ListNode* fast = head;
-        while (fast->next && fast->next->next) {
-            slow = slow->next;
-            fast = fast->next->next;
-        }
-
-        // Reverse second half
-        ListNode* secondHalf = reverse(slow->next);
-
-        // Compare first and second half
-        ListNode* p1 = head;
-        ListNode* p2 = secondHalf;
-        bool palindrome = true;
-        while (p2) {
-            if (p1->val != p2->val) {
-                palindrome = false;
-                break;
+        
+        ListNode *temp = head;
+        while(temp != nullptr && temp->next != nullptr){
+            if(temp->next->val == val){
+                if(temp->next->next != nullptr)
+                    temp->next = temp->next->next;
+                else
+                    temp->next = nullptr;
+            }else{
+                temp = temp->next;
             }
-            p1 = p1->next;
-            p2 = p2->next;
+            
         }
-
-        // Restore the list (optional)
-        slow->next = reverse(secondHalf);
-
-        return palindrome;
+        return head;
     }
 };
