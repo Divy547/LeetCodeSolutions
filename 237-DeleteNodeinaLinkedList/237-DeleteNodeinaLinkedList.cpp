@@ -1,4 +1,4 @@
-// Last updated: 11/5/2025, 2:09:27 PM
+// Last updated: 11/5/2025, 2:27:04 PM
 /**
  * Definition for singly-linked list.
  * struct ListNode {
@@ -9,10 +9,14 @@
  */
 class Solution {
 public:
-    void deleteNode(ListNode* node) {
-        ListNode *temp = node->next;
-        node->val = temp->val;
-        node->next = temp->next;
-        delete temp;
+    ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) {
+        ListNode *t1 = headA;
+        ListNode *t2 = headB;
+        while(t1 != t2){
+           t1 = (t1 == nullptr) ? headB : t1->next;
+           t2 = (t2 == nullptr) ? headA : t2->next; 
+
+        }
+        return t1;
     }
 };
