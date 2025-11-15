@@ -1,24 +1,22 @@
-// Last updated: 11/16/2025, 1:12:32 AM
+// Last updated: 11/16/2025, 1:57:13 AM
 class Solution {
 public:
-    vector<vector<int>> minimumAbsDifference(vector<int>& arr) {
-        sort(arr.begin(), arr.end());
-        int minDiff = INT_MAX;
+    bool canPlaceFlowers(vector<int>& flowerbed, int n) {
         int i = 0;
         int j = 1;
-        vector<vector<int>> ans;
-        while(j < arr.size()){
-            int diff = abs(arr[j] - arr[i]);
-            if(diff < minDiff){
-                minDiff = diff;
-                ans.clear();
-                ans.push_back({arr[i], arr[j]});
-            }else if(diff == minDiff){
-                ans.push_back({arr[i], arr[j]});
+        int k = 0;
+        int cnt = 0;
+        while(i < flowerbed.size() && n > 0){
+            j = (i == 0) ? 0 : flowerbed[i-1];
+            k = (i == flowerbed.size() - 1) ? 0 : flowerbed[i+1];
+            
+            if(flowerbed[i] == 0 && j == 0 && k == 0){
+                i+=2;
+                cnt++;
+            }else{
+                i++;
             }
-            i++;
-            j++;
         }
-        return ans;
+        return cnt >= n;
     }
 };
